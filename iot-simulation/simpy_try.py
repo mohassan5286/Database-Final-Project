@@ -1,16 +1,64 @@
 import simpy
 import random
-import requests
+import mysql.connector
+from mysql.connector import Error
 
 # Configuration
-PARKING_LOTS = {
-    "Lot1": ["Spot1", "Spot2", "Spot3"],
-    "Lot2": ["Spot1", "Spot2"],
+DB_CONFIG = {
+    "host": "localhost",
+    "user": "root",
+    "password": "yourpassword",
+    "database": "parking_system",
 }
 STATUS = ["available", "occupied"]
 UPDATE_INTERVAL = (2, 5)  # Time in seconds for updates
 SIMULATION_TIME = 30  # Total simulation time in seconds
-CENTRAL_SERVER_API = "http://localhost:5000/update_status"  # Replace with actual API endpoint
+
+
+def fetch_parking_data():
+    """
+    Fetch initial parking lot and spot data from the database.
+    Returns a dictionary of parking lots and their spots.
+    """
+    try:
+        connection = mysql.connector.connect(**DB_CONFIG)
+        cursor = connection.cursor(dictionary=True)
+        cursor.execute("SELECT lot_name, spot_name FROM parking_spots")
+        results = cursor.fetchall()
+        parking_lots = {}
+        for row in results:
+            lot = row['lot_name']
+            spot = row['spot_name']
+            if lot not in parking_lots:
+                parking_lots[lot] = []
+            parking_lots[lot].append(spot)
+        return parking_lots
+    except Error as e:
+        print(f"Error fetching data from MySQL: {e}")
+        return {}
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
+
+
+def update_parking_spot(lot, spot, status):
+    """
+    Update the parking spot status in the database.
+    """
+    try:
+        connection = mysql.connector.connect(**DB_CONFIG)
+        cursor = connection.cursor()
+        query = "UPDATE parking_spots SET status = %s WHERE lot_name = %s AND spot_name = %s"
+        cursor.execute(query, (status, lot, spot))
+        connection.commit()
+        print(f"Updated {lot} - {spot} to {status} in database.")
+    except Error as e:
+        print(f"Error updating data in MySQL: {e}")
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
 
 
 def parking_spot_simulator(env, lot_name, spot_name):
@@ -23,43 +71,27 @@ def parking_spot_simulator(env, lot_name, spot_name):
         timestamp = env.now  # Simulation time
         print(f"Time {timestamp}: {lot_name} - {spot_name} is now {new_status}")
         
-        # Send update to the server
-        send_update_to_server(lot_name, spot_name, new_status, timestamp)
+        # Update the database
+        update_parking_spot(lot_name, spot_name, new_status)
         
         # Wait for the next update
         yield env.timeout(random.randint(*UPDATE_INTERVAL))
-
-
-def send_update_to_server(lot, spot, status, timestamp):
-    """
-    Sends a simulated update to the central server.
-    """
-    data = {
-        "parking_lot": lot,
-        "spot": spot,
-        "status": status,
-        "timestamp": timestamp,
-    }
-    
-    try:
-        response = requests.post(CENTRAL_SERVER_API, json=data)
-        if response.status_code == 200:
-            print(f"Server acknowledged update for {lot} - {spot}: {status}")
-        else:
-            print(f"Failed to update server for {lot} - {spot}. Status code: {response.status_code}")
-    except Exception as e:
-        print(f"Error sending update to server: {e}")
 
 
 def run_simulation():
     """
     Runs the simulation environment.
     """
-    import simpy
+    # Fetch initial parking data from the database
+    parking_lots = fetch_parking_data()
+    if not parking_lots:
+        print("No parking data available. Exiting simulation.")
+        return
+    
     env = simpy.Environment()
     
     # Create a parking spot process for each spot in each lot
-    for lot, spots in PARKING_LOTS.items():
+    for lot, spots in parking_lots.items():
         for spot in spots:
             env.process(parking_spot_simulator(env, lot, spot))
     
