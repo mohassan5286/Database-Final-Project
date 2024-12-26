@@ -35,7 +35,7 @@ def update_parking_spot(lot, spot_id, status):
     for row in results:
         if row['lot_name'] == lot and row['spot_id'] == spot_id:
             row['status'] = status
-            print(f"Updated {lot} - {spot_id} to {status} in mock dataset.")
+            # print(f"Updated {lot} - {spot_id} to {status} in mock dataset.")
             break
 
 def parking_spot_simulator(env, lot_name, spot):
