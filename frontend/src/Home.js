@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Home.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -43,128 +43,7 @@ function Home({ userId }) {
   const [plateNumber, setPlateNumber] = useState(localStorage.getItem("plateNumber") || "ABC123");
   const [message, setMessage] = useState("");
 
-  const [parkingLots, setParkingLots] = useState([
-    {
-      "lot_id": 1,
-      "location": "123 Main St",
-      "spots": [
-        {
-          "spot_id": 101,
-          "spot_type": "Regular",
-          "status": "Available",
-          "user_id": null
-        },
-        {
-          "spot_id": 102,
-          "spot_type": "Disabled",
-          "status": "Reserved",
-          "user_id": 1 
-        },
-        {
-          "spot_id": 103,
-          "spot_type": "EV Charging",
-          "status": "Occupied",
-          "user_id": 2
-        }
-      ]
-    },
-    {
-      "lot_id": 2,
-      "location": "456 Elm St",
-      "spots": [
-        {
-          "spot_id": 201,
-          "spot_type": "Regular",
-          "status": "Occupied",
-          "user_id": 3
-        },
-        {
-          "spot_id": 202,
-          "spot_type": "Regular",
-          "status": "Available",
-          "user_id": null
-        },
-        {
-          "spot_id": 203,
-          "spot_type": "EV Charging",
-          "status": "Reserved",
-          "user_id": 4 
-        }
-      ]
-    },
-    {
-      "lot_id": 3,
-      "location": "789 Oak St",
-      "spots": [
-        {
-          "spot_id": 301,
-          "spot_type": "Regular",
-          "status": "Available",
-          "user_id": null
-        },
-        {
-          "spot_id": 302,
-          "spot_type": "Disabled",
-          "status": "Occupied",
-          "user_id": 5 
-        },
-        {
-          "spot_id": 303,
-          "spot_type": "EV Charging",
-          "status": "Available",
-          "user_id": null
-        }
-      ]
-    },
-    {
-      "lot_id": 4,
-      "location": "101 Pine St",
-      "spots": [
-        {
-          "spot_id": 401,
-          "spot_type": "Regular",
-          "status": "Reserved",
-          "user_id": 6
-        },
-        {
-          "spot_id": 402,
-          "spot_type": "Regular",
-          "status": "Occupied",
-          "user_id": 7
-        },
-        {
-          "spot_id": 403,
-          "spot_type": "Disabled",
-          "status": "Available",
-          "user_id": null
-        }
-      ]
-    },
-    {
-      "lot_id": 5,
-      "location": "202 Maple St",
-      "spots": [
-        {
-          "spot_id": 501,
-          "spot_type": "Regular",
-          "status": "Available",
-          "user_id": null
-        },
-        {
-          "spot_id": 502,
-          "spot_type": "EV Charging",
-          "status": "Reserved",
-          "user_id": 8
-        },
-        {
-          "spot_id": 503,
-          "spot_type": "Disabled",
-          "status": "Occupied",
-          "user_id": 9
-        }
-      ]
-    }
-  ]);
+  const [parkingLots, setParkingLots] = useState([]);
   
   const handleClickOpen = (spot) => {
     setSelectedSpot(spot);
@@ -179,15 +58,38 @@ function Home({ userId }) {
   const handleReserve = () => {
     if (!selectedSpot) return;
 
+    const lot = parkingLots.find(lot => lot.spots.some(spot => spot.spot_id === selectedSpot.spot_id));
+    const reservationDetails = {
+        Arrived: "No",
+        StartTime: startTime,
+        EndTime: endTime,
+        User_idUser: userId,
+        User_Admin_AdminID: lot.admin_id,
+        ParkingSpot_SpotID: selectedSpot.spot_id,
+        ParkingSpot_ParkingLot_LotID: lot.lot_id,
+        ParkingSpot_ParkingLot_Admin_AdminID: lot.admin_id,
+        location: lot.location
+    };
+
+    axios.post('http://localhost:8081/reserveSpot', reservationDetails)
+        .then(response => {
+            console.log("Reservation successful:", response.data);
+            setMessage("Your reservation is successful and all your debt is paid automatically.");
+            setTimeout(() => setMessage(""), 3000);
+        })
+        .catch(error => {
+            console.error("Error making reservation:", error);
+        });
+
     setParkingLots((prevLots) =>
-      prevLots.map((lot) => ({
-        ...lot,
-        spots: lot.spots.map((spot) =>
-          spot.spot_id === selectedSpot.spot_id
-            ? { ...spot, status: "Reserved", user_id: userId }
-            : spot
-        ),
-      }))
+        prevLots.map((lot) => ({
+            ...lot,
+            spots: lot.spots.map((spot) =>
+                spot.spot_id === selectedSpot.spot_id
+                    ? { ...spot, status: "Reserved", user_id: userId }
+                    : spot
+            ),
+        }))
     );
     setReservedSpots((prev) => [...prev, selectedSpot.spot_id]);
     handleClose();
@@ -195,9 +97,11 @@ function Home({ userId }) {
 
   const handleArrive = (spotId) => {
     axios
-    .post('http://localhost:8081/arrive', { spotId, message: "yes" })
+    .post('http://localhost:8081/arrive', { spotId, userId })
     .then((response) => {
       console.log("Arrived successfully:", response.data);
+      setMessage("Thank you! You have successfully paid for your reservation.");
+      setTimeout(() => setMessage(""), 3000);
     })
     .catch((error) => {
       console.error("Error arriving:", error);
@@ -212,15 +116,28 @@ function Home({ userId }) {
       }))
     );
     setReservedSpots((prev) => prev.filter((id) => id !== spotId));
-    setMessage("Thank you! You have successfully paid for your reservation and cleared all outstanding dues.");
-    setTimeout(() => setMessage(""), 3000);
   };
 
   const filteredParkingLots = parkingLots.filter(lot =>
     lot.location.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  fetchAndSetUserInfo(userId, setUsername, setEmail, setPlateNumber);
+  useEffect(() => {
+    fetchAndSetUserInfo(userId, setUsername, setEmail, setPlateNumber);
+  }, [userId]);
+
+  useEffect(() => {
+    const fetchParkingLots = async () => {
+        try {
+            const response = await axios.get('http://localhost:8081/parkingLots');
+            setParkingLots(response.data);
+        } catch (err) {
+            console.log(err, 'Error fetching parking lots');
+        }
+    };
+
+    fetchParkingLots();
+}, []);
 
   return (
     <>
@@ -273,6 +190,9 @@ function Home({ userId }) {
           <Card key={lot.lot_id}>
             <CardContent>
               <Typography variant="h5">{lot.location}</Typography>
+              <Typography variant="body2" color="textSecondary">
+                <strong>Directions:</strong> {lot.directions}
+              </Typography>
               <Button onClick={() => setOpenLotId(openLotId === lot.lot_id ? null : lot.lot_id)}>
                 Show Spots
               </Button>

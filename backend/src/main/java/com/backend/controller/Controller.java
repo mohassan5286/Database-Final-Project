@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @CrossOrigin
 @RestController
@@ -178,5 +179,55 @@ public class Controller {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("message", "Internal Server Error"));
         }
+
     }
+
+    private static List<Map<String, Object>> users = List.of(
+            Map.of(
+                    "user_id", 1,
+                    "name", "John Doe",
+                    "plate_number", "ABC123",
+                    "email", "john.doe@example.com",
+                    "password", "password123"
+            ),
+            Map.of(
+                    "user_id", 2,
+                    "name", "Jane Smith",
+                    "plate_number", "XYZ789",
+                    "email", "jane.smith@example.com",
+                    "password", "securepass456"
+            ),
+            Map.of(
+                    "user_id", 3,
+                    "name", "Alice Johnson",
+                    "plate_number", "LMN456",
+                    "email", "alice.johnson@example.com",
+                    "password", "mypassword789"
+            ),
+            Map.of(
+                    "user_id", 4,
+                    "name", "Bob Brown",
+                    "plate_number", "QRS321",
+                    "email", "bob.brown@example.com",
+                    "password", "pass1234"
+            ),
+            Map.of(
+                    "user_id", 5,
+                    "name", "Charlie Davis",
+                    "plate_number", "TUV654",
+                    "email", "charlie.davis@example.com",
+                    "password", "charliepass"
+            )
+    );
+
+    @GetMapping("/getAllUsers")
+    public ResponseEntity<List<Map<String, Object>>> getAllUsers() {
+        return ResponseEntity.ok(users);
+    }
+
+    @PostMapping("/removeUser")
+    public void removeUser(@RequestBody String userId) {
+        System.out.println("Received userId: " + userId);
+    }
+
 }
