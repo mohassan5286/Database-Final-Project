@@ -1,8 +1,7 @@
 package com.backend.entity;
-import com.backend.entity.Admin;
-import com.backend.entity.ParkingSpot;
-import jakarta.persistence.*;
-import java.util.List;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
 @Entity
 public class ParkingLot {
@@ -13,9 +12,7 @@ public class ParkingLot {
     private String location;
     private String capacity;
 
-    @ManyToOne
-    @JoinColumn(name = "Admin_AdminID", referencedColumnName = "adminID")
-    private Admin admin;
+    private Integer adminAdminID; // Foreign key to Admin
 
     // Getters and Setters
 }

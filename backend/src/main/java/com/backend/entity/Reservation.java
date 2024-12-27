@@ -1,6 +1,7 @@
 package com.backend.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
 @Entity
 public class Reservation {
@@ -11,20 +12,12 @@ public class Reservation {
     private String startTime;
     private String endTime;
 
-//    @ManyToOne
-//    @JoinColumns({
-//            @JoinColumn(name = "User_idUser", referencedColumnName = "idUser"),
-//            @JoinColumn(name = "User_Admin_AdminID", referencedColumnName = "adminID")
-//    })
-//    private User user;
+    private Integer userIdUser;             // Foreign key to User
+    private Integer userAdminAdminID;       // Foreign key to User's Admin
 
-    @ManyToOne
-    @JoinColumns({
-            @JoinColumn(name = "ParkingSpot_SpotID", referencedColumnName = "spotID"),
-            @JoinColumn(name = "ParkingSpot_ParkingLot_LotID", referencedColumnName = "ParkingLot_LotID"),
-//            @JoinColumn(name = "ParkingSpot_ParkingLot_Admin_AdminID", referencedColumnName = "adminID")
-    })
-    private ParkingSpot parkingSpot;
+    private Integer parkingSpotSpotID;      // Foreign key to ParkingSpot
+    private Integer parkingSpotLotID;       // Foreign key to ParkingSpot's Lot
+    private Integer parkingSpotAdminID;     // Foreign key to ParkingSpot's Admin
 
     // Getters and Setters
 }

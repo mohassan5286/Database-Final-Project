@@ -2,8 +2,6 @@ package com.backend.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.JoinColumn;
 
 @Entity
 public class User {
@@ -16,9 +14,7 @@ public class User {
     private String password;
     private String paymentMethod;
 
-    @ManyToOne
-    @JoinColumn(name = "Admin_AdminID", referencedColumnName = "adminID")
-    private Admin admin;
+    private Integer adminAdminID; // Foreign key to Admin
 
     // Getters and Setters
 }
