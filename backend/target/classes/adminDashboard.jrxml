@@ -43,11 +43,11 @@
             <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fc5d8646-3a42-4b5c-94f8-0bc2c455a0ee"/>
         </element>
         <element kind="staticText" uuid="6ef79fe9-cb9d-41e6-9401-18d29f335819" x="199" y="0" width="199" height="18" forecolor="#000000" bold="false" style="Column header">
-            <text><![CDATA[Occupancy Rate]]></text>
+            <text><![CDATA[Occupancy Count]]></text>
             <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5a938770-ebd4-4095-a489-2f7a322293e5"/>
         </element>
         <element kind="staticText" uuid="5480b6fc-b03f-4f0d-8540-437e2a07168d" x="398" y="0" width="199" height="18" forecolor="#000000" bold="false" style="Column header">
-            <text><![CDATA[Revenue]]></text>
+            <text><![CDATA[Total Revenue]]></text>
             <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a7bcf8e1-542c-4b4d-a5c5-26d620f28ba3"/>
         </element>
         <element kind="staticText" uuid="9e7552ac-21ba-42d6-9877-6a341e92a1d9" x="597" y="0" width="199" height="18" forecolor="#000000" bold="false" style="Column header">
