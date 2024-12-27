@@ -1,0 +1,165 @@
+.website-title {
+    font-size: x-large;
+    color: #000;
+    transition: color 0.3s;
+  }
+  
+  .website-title:hover {
+    color: gray;
+  }
+  
+  .user-link {
+    margin-left: 20px;
+    font-size: large;
+    color: #000;
+    cursor: pointer;
+  }
+  
+  .user-link:hover {
+    color: gray;
+  }
+  
+  .search-field {
+    flex: 1;
+    min-width: 350px;
+  }
+  
+  .search-button {
+    color: white !important;
+    background-color: #28a745;
+    border-color: #28a745;
+  }
+  
+  .search-button:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+  }
+  
+  .user-card-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: opacity 0.3s ease;
+  }
+  
+  .user-card {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 350px;
+    position: relative;
+    text-align: left;
+    animation: fadeIn 0.3s ease-out;
+  }
+  
+  .close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #333;
+    cursor: pointer;
+    padding: 5px 10px;
+    transition: color 0.2s ease;
+  }
+  
+  .close-button:hover {
+    color: red;
+  }
+  
+  h3 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 15px;
+    font-weight: bold;
+  }
+  
+  p {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+
+  .spot-card {
+    padding: 10px;
+    border-radius: 5px;
+    margin: 5px 0;
+  }
+  
+  .spot-available {
+    background-color: #dff0d8;
+    border: 1px solid #3c763d;
+  }
+  
+  .spot-reserved {
+    background-color: #fcf8e3;
+    border: 1px solid #8a6d3b;
+  }
+  
+  .spot-occupied {
+    background-color: #f2dede;
+    border: 1px solid #a94442;
+  }
+
+  .blur-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    z-index: 998;
+  }
+  
+  .arrival-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    font-size: 18px;
+    text-align: center;
+  }  
+  
+  
+  @media (max-width: 500px) {
+    .user-card {
+      width: 90%;
+      padding: 20px;
+    }
+  
+    .close-button {
+      font-size: 16px;
+      top: 8px;
+      right: 8px;
+    }
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
