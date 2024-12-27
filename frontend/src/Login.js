@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Login.css";
 import "boxicons/css/boxicons.min.css";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const Login = ({ setUserId }) => {
   const navigate = useNavigate();
@@ -26,19 +26,18 @@ const Login = ({ setUserId }) => {
   };
 
   const validateUser = async (email, password) => {
+    const url = `http://localhost:8080/api/auth/Login/${email}/${password}`;
 
-    const url = `http://localhost:8081/api/auth/Login/${email}/${password}`;
-  
     try {
       setIsLoading(true);
       const response = await fetch(url, {
         method: "GET",
       });
-  
+
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-  
+
       const userId = await response.text();
       setIsLoading(false);
       return userId || null;
@@ -48,7 +47,6 @@ const Login = ({ setUserId }) => {
       return null;
     }
   };
-  
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -59,8 +57,7 @@ const Login = ({ setUserId }) => {
       setUserId(userId);
       if (isAdmin) {
         navigate(`/home`);
-      }
-      else {
+      } else {
         navigate(`/admin`);
       }
     } else {
@@ -69,7 +66,7 @@ const Login = ({ setUserId }) => {
   };
   const handleSignup = async (e) => {
     e.preventDefault();
-    const url = `http://localhost:8081/api/auth/signup`;
+    const url = `http://localhost:8080/api/auth/signup`;
 
     try {
       setIsLoading(true);
@@ -80,14 +77,14 @@ const Login = ({ setUserId }) => {
         },
         body: JSON.stringify({ username, email, password, plateNumber }),
       });
-  
+
       if (!response.ok) {
         throw new Error("Failed to sign up. Please try again.");
       }
-  
+
       const message = await response.text();
       setIsLoading(false);
-  
+
       alert(message); // Inform the user about the email verification
       toggleActive();
     } catch (error) {
@@ -96,151 +93,209 @@ const Login = ({ setUserId }) => {
       setSignupError(true);
     }
   };
-  
+
   return (
     <div className="component-wrapper">
-        <div className="container">
+      <div className="container">
         <div className={`wrapper ${active ? "active" : ""}`}>
-            <span className="bg-animate"></span>
-            <span className="bg-animate2"></span>
+          <span className="bg-animate"></span>
+          <span className="bg-animate2"></span>
 
-            {isLoading && (
+          {isLoading && (
             <div className="loading-overlay">
-                <div className="loading-spinner"></div>
-                <p>Loading...</p>
+              <div className="loading-spinner"></div>
+              <p>Loading...</p>
             </div>
-            )}
+          )}
 
-            <div className="form-box login">
-            <h2 className="animation" style={{ "--i": 0, "--j": 21 }}>Login</h2>
+          <div className="form-box login">
+            <h2 className="animation" style={{ "--i": 0, "--j": 21 }}>
+              Login
+            </h2>
             <form onSubmit={handleLogin}>
-                <div className="input-box animation" style={{ "--i": 1, "--j": 22 }}>
+              <div
+                className="input-box animation"
+                style={{ "--i": 1, "--j": 22 }}
+              >
                 <input
-                    type="text"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                  type="text"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
                 <label>Email</label>
                 <i className="bx bxs-envelope"></i>
-                </div>
-                <div className="input-box animation" style={{ "--i": 2, "--j": 23 }}>
+              </div>
+              <div
+                className="input-box animation"
+                style={{ "--i": 2, "--j": 23 }}
+              >
                 <input
-                    type="password"
-                    required
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                  type="password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
                 <label>Password</label>
                 <i className="bx bxs-lock-alt"></i>
-                </div>
+              </div>
 
-                <label className="checkbox-label animation" style={{ "--i": 3, "--j": 24 }}>
-                  <input
-                    type="checkbox"
-                    checked={!isAdmin}
-                    onChange={handleCheckboxChange}
-                    className="checkbox-input"
-                  />
-                  <span className="checkbox-text">Sign me in as Admin</span>
-                </label>
-
-                <button className="btn animation" style={{ "--i": 3, "--j": 24 }}>
-                Login
-                </button>
-
-                {loginError && (
-                <p className="error-message" style={{ fontSize: "14px", color: "red", margin: "20px" }}>
-                    Incorrect username or password.
-                </p>
-                )}
-
-                <div className="logreg-link animation" style={{ "--i": 4, "--j": 25 }}>
-                <p>
-                    Don't have an account?{" "}
-                    <a className="register-link" onClick={toggleActive} style = {{cursor: "pointer"}}>Sign Up</a>
-                </p>
-                </div>
-            </form>
-            </div>
-
-            <div className="info-text login">
-            <h2 className="animation" style={{ "--i": 0, "--j": 19 }}>Welcome Back!</h2>
-            <p className="animation" style={{ "--i": 1, "--j": 20 }}>
-                Hope, You and your Family have a Great Day
-            </p>
-            </div>
-
-            <div className="form-box register">
-            <h2 className="animation" style={{ "--i": 17, "--j": 0 }}>Sign Up</h2>
-            <form onSubmit={handleSignup}>
-                <div className="input-box animation" style={{ "--i": 18, "--j": 1 }}>
+              <label
+                className="checkbox-label animation"
+                style={{ "--i": 3, "--j": 24 }}
+              >
                 <input
-                    type="text"
-                    required
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                  type="checkbox"
+                  checked={!isAdmin}
+                  onChange={handleCheckboxChange}
+                  className="checkbox-input"
+                />
+                <span className="checkbox-text">Sign me in as Admin</span>
+              </label>
+
+              <button className="btn animation" style={{ "--i": 3, "--j": 24 }}>
+                Login
+              </button>
+
+              {loginError && (
+                <p
+                  className="error-message"
+                  style={{ fontSize: "14px", color: "red", margin: "20px" }}
+                >
+                  Incorrect username or password.
+                </p>
+              )}
+
+              <div
+                className="logreg-link animation"
+                style={{ "--i": 4, "--j": 25 }}
+              >
+                <p>
+                  Don't have an account?{" "}
+                  <a
+                    className="register-link"
+                    onClick={toggleActive}
+                    style={{ cursor: "pointer" }}
+                  >
+                    Sign Up
+                  </a>
+                </p>
+              </div>
+            </form>
+          </div>
+
+          <div className="info-text login">
+            <h2 className="animation" style={{ "--i": 0, "--j": 19 }}>
+              Welcome Back!
+            </h2>
+            <p className="animation" style={{ "--i": 1, "--j": 20 }}>
+              Hope, You and your Family have a Great Day
+            </p>
+          </div>
+
+          <div className="form-box register">
+            <h2 className="animation" style={{ "--i": 17, "--j": 0 }}>
+              Sign Up
+            </h2>
+            <form onSubmit={handleSignup}>
+              <div
+                className="input-box animation"
+                style={{ "--i": 18, "--j": 1 }}
+              >
+                <input
+                  type="text"
+                  required
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                 />
                 <label>Username</label>
                 <i className="bx bxs-user"></i>
-                </div>
-                <div className="input-box animation" style={{ "--i": 19, "--j": 2 }}>
+              </div>
+              <div
+                className="input-box animation"
+                style={{ "--i": 19, "--j": 2 }}
+              >
                 <input
-                    type="email"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
                 <label>Email</label>
                 <i className="bx bxs-envelope"></i>
-                </div>
-                <div className="input-box animation" style={{ "--i": 20, "--j": 3 }}>
+              </div>
+              <div
+                className="input-box animation"
+                style={{ "--i": 20, "--j": 3 }}
+              >
                 <input
-                    type="password"
-                    required
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                  type="password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
                 <label>Password</label>
                 <i className="bx bxs-lock-alt"></i>
-                </div>
-                <div className="input-box animation" style={{ "--i": 20, "--j": 4 }}>
+              </div>
+              <div
+                className="input-box animation"
+                style={{ "--i": 20, "--j": 4 }}
+              >
                 <input
-                    type="text"
-                    required
-                    value={plateNumber}
-                    onChange={(e) => setPlateNumber(e.target.value)}
+                  type="text"
+                  required
+                  value={plateNumber}
+                  onChange={(e) => setPlateNumber(e.target.value)}
                 />
                 <label>Plate Number</label>
                 <i class="bi bi-car-front"></i>
-                </div>
-                <button className="btn animation" style={{ "--i": 21, "--j": 5 }}>
+              </div>
+              <button className="btn animation" style={{ "--i": 21, "--j": 5 }}>
                 Register
-                </button>
+              </button>
 
-                {signupError && (
-                <p className="error-message" style={{ fontSize: "14px", color: "red", margin: "15px", marginLeft: "20%" }}>
-                    Failed to save. Try again.
+              {signupError && (
+                <p
+                  className="error-message"
+                  style={{
+                    fontSize: "14px",
+                    color: "red",
+                    margin: "15px",
+                    marginLeft: "20%",
+                  }}
+                >
+                  Failed to save. Try again.
                 </p>
-                )}
+              )}
 
-                <div className="logreg-link animation" style={{ "--i": 22, "--j": 5 }}>
+              <div
+                className="logreg-link animation"
+                style={{ "--i": 22, "--j": 5 }}
+              >
                 <p>
-                    Already have an account?{" "}
-                    <a className="login-link" onClick={toggleActive} style = {{cursor: "pointer"}}>Login</a>
+                  Already have an account?{" "}
+                  <a
+                    className="login-link"
+                    onClick={toggleActive}
+                    style={{ cursor: "pointer" }}
+                  >
+                    Login
+                  </a>
                 </p>
-                </div>
+              </div>
             </form>
-            </div>
+          </div>
 
-            <div className="info-text register">
-            <h2 className="animation" style={{ "--i": 17, "--j": 0 }}>Welcome!</h2>
+          <div className="info-text register">
+            <h2 className="animation" style={{ "--i": 17, "--j": 0 }}>
+              Welcome!
+            </h2>
             <p className="animation" style={{ "--i": 18, "--j": 1 }}>
-                Hope, You and your Family have a Great Day
+              Hope, You and your Family have a Great Day
             </p>
-            </div>
+          </div>
         </div>
-        </div>
+      </div>
     </div>
   );
 };

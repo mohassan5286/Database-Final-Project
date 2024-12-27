@@ -39,7 +39,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     User findByEmailAndPassword(@Param("email") String email, @Param("password") String password);
 
     // Additional custom query to find a user by email and check if they are enabled
-    @Query("SELECT u FROM User u WHERE u.email = :email AND u.enabled = true")
-    User findByEmailAndEnabled(@Param("email") String email);
+//    @Query("SELECT u FROM User u WHERE u.email = :email AND u.enabled = true")
+//    User findByEmailAndEnabled(@Param("email") String email);
 
 }

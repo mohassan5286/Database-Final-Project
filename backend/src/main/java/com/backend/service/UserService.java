@@ -7,11 +7,12 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
-@NoArgsConstructor
-@AllArgsConstructor
 public class UserService {
 
+    @Autowired
     private UserRepository userRepository;
 
 
@@ -21,6 +22,10 @@ public class UserService {
         if (userRepository.findByEmail(user.getEmail()) != null) {
             return "email already taken!";
         }
+        user.setDebt(0);
+        if (user.getAdminId() == null)
+            user.setAdminId(1);
+        userRepository.save(user);
         return "User registered successfully!";
     }
 

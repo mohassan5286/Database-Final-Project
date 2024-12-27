@@ -3,6 +3,7 @@ package com.backend.controller;
 import com.backend.entity.User;
 import com.backend.repository.UserRepository;
 import com.backend.service.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,13 +11,12 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @CrossOrigin(value = "http://localhost:3000/")
 @RequestMapping("/api/auth")
-public class UserController {
 
+public class UserController {
+    
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private UserRepository userRepository;
 
     // Sign-up endpoint
     @PostMapping("/signup")
