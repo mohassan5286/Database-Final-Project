@@ -11,5 +11,28 @@ public class TopUserDTO {
         this.reservationCount = reservationCount;
     }
 
+    public Integer getUserID() {
+        return userID;
+    }
+
+    public void setUserID(Integer userID) {
+        this.userID = userID;
+    }
+
+    public Integer getAdminID() {
+        return adminID;
+    }
+
+    public void setAdminID(Integer adminID) {
+        this.adminID = adminID;
+    }
+
+    public Long getReservationCount() {
+        return reservationCount;
+    }
+
+    public void setReservationCount(Long reservationCount) {
+        this.reservationCount = reservationCount;
+    }
     // Getters and Setters
 }

@@ -23,4 +23,17 @@ public class ReportController {
         System.out.println(1231);
         return reportService.generateAdminReport();
     }
+    // API to generate the report for Top Users
+    @GetMapping("/get/topUsersReport")
+    public String getTopUsersReport() throws Exception {
+        System.out.println("Generating Top Users Report...");
+        return reportService.generateTopUserReport();
+    }
+
+    // API to generate the report for Top Parking Lots
+    @GetMapping("/get/topParkingLotsReport")
+    public String getTopParkingLotsReport() throws Exception {
+        System.out.println("Generating Top Parking Lots Report...");
+        return reportService.generateTopParkingSpotReport();
+    }
 }
