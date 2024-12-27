@@ -4,10 +4,15 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.io.Serializable;
 
 @Entity
 @Table(name = "User", schema = "ParkingSystemSchema")
+@Getter
+@Setter
 public class User {
 
     @Id
@@ -27,6 +32,9 @@ public class User {
 
     @Column(name = "Name", nullable = false, length = 45)
     private String name;
+
+    @Column(name = "Email", nullable = false, length = 45)
+    private String email;
 
     @Column(name = "Password", nullable = false, length = 45)
     private String password;
