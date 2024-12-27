@@ -12,11 +12,16 @@ import java.util.List;
 public interface ReservationRepository extends JpaRepository<Reservation, Integer> {
 
     @Query("SELECT " +
-            "r.parkingSpot.parkingLot.lotID, " +
-            "COUNT(r), " +
-            "SUM(r.parkingSpot.price), " +
-            "SUM(CASE WHEN r.arrived = 'NO' THEN 1 ELSE 0 END) " +
+            "r.parkingSpotLotID AS lotID, " +
+            "COUNT(r) AS reservationCount, " +
+            "SUM(ps.price) AS totalRevenue, " +
+            "SUM(CASE WHEN r.arrived = 'NO' THEN 1 ELSE 0 END) AS noShowCount " +
             "FROM Reservation r " +
-            "GROUP BY r.parkingSpot.parkingLot.lotID")
+            "JOIN ParkingSpot ps " +
+            "ON r.parkingSpotSpotID = ps.spotID " +
+            "AND r.parkingSpotLotID = ps.parkingLotLotID " +
+            "AND r.parkingSpotAdminID = ps.parkingLotAdminAdminID " +
+            "GROUP BY r.parkingSpotLotID")
     List<ReservationStatisticsDTO> getStatisticsForAllLots();
 }
+
