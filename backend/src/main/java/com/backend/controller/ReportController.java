@@ -20,6 +20,7 @@ public class ReportController {
 
     @GetMapping("/get/occupancyRates")
     public String getAdminDashboardReport() throws Exception {
+        System.out.println(1231);
         return reportService.generateAdminReport();
     }
 }

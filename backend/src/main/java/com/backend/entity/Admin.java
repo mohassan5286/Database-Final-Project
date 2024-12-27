@@ -1,29 +1,21 @@
 package com.backend.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.List;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
 @Entity
-@Table(name = "Admin", schema = "ParkingSystemSchema")
 public class Admin {
     @Id
-    private int adminID;
+    private Integer adminID;
 
-    @Column(nullable = false)
     private String name;
-
-    @Column(nullable = false)
     private String email;
-
-    @Column(nullable = false)
     private String password;
-
-    @OneToMany(mappedBy = "admin")
-    private List<User> users;
-
-    @OneToMany(mappedBy = "admin")
-    private List<ParkingLot> parkingLots;
 
     // Getters and Setters
 }

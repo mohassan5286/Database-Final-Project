@@ -1,30 +1,21 @@
 package com.backend.entity;
-
+import com.backend.entity.Admin;
+import com.backend.entity.ParkingSpot;
 import jakarta.persistence.*;
-
 import java.util.List;
 
 @Entity
-@Table(name = "ParkingLot", schema = "ParkingSystemSchema")
 public class ParkingLot {
     @Id
-    private int lotID;
+    private Integer lotID;
 
-    @Column(nullable = false)
     private String directions;
-
-    @Column(nullable = false)
     private String location;
-
-    @Column(nullable = false)
     private String capacity;
 
     @ManyToOne
-    @JoinColumn(name = "Admin_AdminID", nullable = false)
+    @JoinColumn(name = "Admin_AdminID", referencedColumnName = "adminID")
     private Admin admin;
-
-    @OneToMany(mappedBy = "parkingLot")
-    private List<ParkingSpot> parkingSpots;
 
     // Getters and Setters
 }

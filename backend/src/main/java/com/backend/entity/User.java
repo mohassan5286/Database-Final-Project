@@ -1,36 +1,24 @@
 package com.backend.entity;
 
-import jakarta.persistence.*;
-
-import java.util.List;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
 
 @Entity
-@Table(name = "User", schema = "ParkingSystemSchema")
 public class User {
     @Id
-    private int idUser;
+    private Integer idUser;
 
-    private int debt;
-
-    @Column(nullable = false)
+    private Integer debt;
     private String licensePlate;
-
-    @Column(nullable = false)
     private String name;
-
-    @Column(nullable = false)
     private String password;
-
-    @Column(nullable = false)
     private String paymentMethod;
 
     @ManyToOne
-    @JoinColumn(name = "Admin_AdminID", nullable = false)
+    @JoinColumn(name = "Admin_AdminID", referencedColumnName = "adminID")
     private Admin admin;
-
-    @OneToMany(mappedBy = "user")
-    private List<Reservation> reservations;
 
     // Getters and Setters
 }
-
