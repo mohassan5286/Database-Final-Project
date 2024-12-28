@@ -1,19 +1,27 @@
 package com.backend.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
+@Table(name = "ParkingSpot")
+@Data
 public class ParkingSpot {
+
     @Id
-    private Integer spotID;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "SpotID")
+    private Integer spotId;
 
-    private String type;
-    private String status;
-    private Integer price;
+    @Column(name = "Type", nullable = false, length = 45)
+    private String type = "Standard";
 
-    private Integer parkingLotLotID;         // Foreign key to ParkingLot
-    private Integer parkingLotAdminAdminID; // Foreign key to ParkingLot's Admin
+    @Column(name = "Status", nullable = false, length = 45)
+    private String status = "Available";
 
-    // Getters and Setters
+    @Column(name = "Price", nullable = false)
+    private Integer price = 0;
+
+    @Column(name = "ParkingLot_LotID", nullable = false)
+    private Integer parkingLotId; // Foreign key as an integer
 }

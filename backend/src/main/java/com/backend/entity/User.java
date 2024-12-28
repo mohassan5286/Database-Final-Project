@@ -23,7 +23,7 @@ import java.io.Serializable;
 
 
 @Entity
-@Table(name = "User", schema = "ParkingSystemSchema")
+@Table(name = "User")
 @IdClass(UserId.class)  // Indicate that UserId is the composite key class
 @Getter
 @Setter
@@ -44,13 +44,13 @@ public class User {
     @Column(name = "LicensePlate")
     private String licensePlate;
 
-    @Column(name = "Name")
+    @Column(name = "name")
     private String name;
 
-    @Column(name = "Email")
+    @Column(name = "email")
     private String email;
 
-    @Column(name = "Password")
+    @Column(name = "password")
     private String password;
 
     @Column(name = "PaymentMethod")

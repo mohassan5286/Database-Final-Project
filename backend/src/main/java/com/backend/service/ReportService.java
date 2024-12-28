@@ -28,7 +28,8 @@ public class ReportService {
 
     public String generateAdminReport() throws Exception {
         // Fetch report data as List<Object[]>
-        List<ReservationStatisticsDTO> data = reservationRepository.getStatisticsForAllLots();
+//        List<ReservationStatisticsDTO> data = reservationRepository.getStatisticsForAllLots();
+        List<ReservationStatisticsDTO> data = new ArrayList<>();
 
         data.add(new ReservationStatisticsDTO(1, 1500L, 1500.0, 3L));
         data.add(new ReservationStatisticsDTO(2, 2000L, 2000.0, 5L));
@@ -71,7 +72,8 @@ public class ReportService {
     }
     public String generateTopUserReport() throws Exception {
         // Fetch report data for top users
-        List<TopUserDTO> topUsers = userRepository.getTopUsers();
+//        List<TopUserDTO> topUsers = userRepository.getTopUsers();
+        List<TopUserDTO> topUsers = new ArrayList<>();
 
         topUsers.add(new TopUserDTO(1, 101, 15L)); // User 1 with admin 101 and 15 reservations
         topUsers.add(new TopUserDTO(2, 101, 12L)); // User 2 with admin 101 and 12 reservations
@@ -116,7 +118,8 @@ public class ReportService {
     }
     public String generateTopParkingSpotReport() throws Exception {
         // Fetch report data for top parking spots
-        List<TopParkingSpotDTO> topParkingSpots = parkingSpotRepository.getTopParkingLots();
+//        List<TopParkingSpotDTO> topParkingSpots = parkingSpotRepository.getTopParkingLots();
+        List<TopParkingSpotDTO> topParkingSpots = new ArrayList<>();
 
         topParkingSpots.add(new TopParkingSpotDTO(1, 150.0));
         topParkingSpots.add(new TopParkingSpotDTO(2, 120.0));
