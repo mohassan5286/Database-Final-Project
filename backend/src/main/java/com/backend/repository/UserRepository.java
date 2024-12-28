@@ -12,14 +12,13 @@ import java.util.List;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 
-//    @Query("SELECT " +
-//            "r.userIdUser AS userID, " +
-//            "r.userAdminAdminID AS adminID, " +
-//            "COUNT(r) AS reservationCount " +
-//            "FROM Reservation r " +
-//            "GROUP BY r.userIdUser, r.userAdminAdminID " +
-//            "ORDER BY reservationCount DESC")
-//    List<TopUserDTO> getTopUsers();
+    @Query("SELECT " +
+            "r.userId AS userID, " +
+            "COUNT(r) AS reservationCount " +
+            "FROM Reservation r " +
+            "GROUP BY r.userId " +
+            "ORDER BY reservationCount DESC")
+    List<TopUserDTO> getTopUsers();
 
 
     // Custom query to find a user by username

@@ -4,10 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 import jakarta.persistence.Entity;
@@ -24,9 +21,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "User")
-@IdClass(UserId.class)  // Indicate that UserId is the composite key class
-@Getter
-@Setter
+@Data
 public class User {
 
     @Id
@@ -34,7 +29,6 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer idUser;
 
-    @Id
     @Column(name = "Admin_AdminID")
     private Integer adminId;
 

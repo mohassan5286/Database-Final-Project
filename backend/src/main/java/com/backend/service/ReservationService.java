@@ -34,7 +34,7 @@ public class ReservationService {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     public String createReservation(Reservation reservation) {
-        User user = userRepository.findById(reservation.getUser().getIdUser()).get();
+        User user = userRepository.findById(reservation.getUserId()).get();
 
         ParkingLot parkingLot = parkingLotRepository.findById(reservation.getParkingSpotId()).get();
 

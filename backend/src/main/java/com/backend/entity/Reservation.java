@@ -7,21 +7,24 @@ import lombok.Data;
 @Table(name = "Reservation")
 @Data
 public class Reservation {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int reservationID;
+    @Column(name = "ReservationID")
+    private Integer reservationId;
 
-    private String arrived;
+    @Column(name = "Arrived", nullable = false, length = 45)
+    private String arrived = "No";
+
+    @Column(name = "StartTime", nullable = false, length = 45)
     private String startTime;
+
+    @Column(name = "EndTime", nullable = false, length = 45)
     private String endTime;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id_user", nullable = false)
-    private User user;
+    @Column(name = "User_idUser", nullable = false)
+    private Integer userId; // Foreign key as a plain integer
 
-    @ManyToOne
-    @JoinColumn(name = "parking_spot_spotid", nullable = false)
-    private ParkingSpot parkingSpot;
-
-    // Getters and Setters
+    @Column(name = "ParkingSpot_SpotID", nullable = false)
+    private Integer parkingSpotId; // Foreign key as a plain integer
 }
