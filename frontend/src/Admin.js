@@ -1,45 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { Button, Card, CardContent, Typography, AppBar, Toolbar } from '@mui/material';
 import './Admin.css';
 
 const Admin = () => {
-  const [users, setUsers] = useState([
-    {
-      "user_id": 1,
-      "name": "John Doe",
-      "plate_number": "ABC123",
-      "email": "john.doe@example.com",
-      "password": "password123"
-    },
-    {
-      "user_id": 2,
-      "name": "Jane Smith",
-      "plate_number": "XYZ789",
-      "email": "jane.smith@example.com",
-      "password": "securepass456"
-    },
-    {
-      "user_id": 3,
-      "name": "Alice Johnson",
-      "plate_number": "LMN456",
-      "email": "alice.johnson@example.com",
-      "password": "mypassword789"
-    },
-    {
-      "user_id": 4,
-      "name": "Bob Brown",
-      "plate_number": "QRS321",
-      "email": "bob.brown@example.com",
-      "password": "pass1234"
-    },
-    {
-      "user_id": 5,
-      "name": "Charlie Davis",
-      "plate_number": "TUV654",
-      "email": "charlie.davis@example.com",
-      "password": "charliepass"
-    }
-  ]);
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -57,11 +22,9 @@ const Admin = () => {
   const handleRemoveUser = async (userId) => {
     setUsers(users.filter(user => user.user_id !== userId));
     try {
-      const response = await fetch(`http://localhost:8081/removeUser/${userId}`, {
-        method: 'DELETE',
-      });
+      const response = await axios.post('http://localhost:8081/removeUser', { userId });
 
-      if (!response.ok) {
+      if (response.status !== 200) {
         console.error('Error removing user');
       }
     } catch (error) {
@@ -114,9 +77,15 @@ const Admin = () => {
           ))}
         </div>
         <div className="report-section">
-          <Button variant="contained" color="primary" onClick={handleGenerateReport}>
-            Generate Report
-          </Button>
+        <Button variant="contained" color="primary" style={{ margin: "20px" }} onClick={handleGenerateReport}>
+            Generate Dashboard
+        </Button>
+        <Button variant="contained" color="primary" style={{ margin: "20px" }} onClick={handleGenerateReport}>
+            Generate Top Users
+        </Button>
+        <Button variant="contained" color="primary" style={{ margin: "20px" }} onClick={handleGenerateReport}>
+            Generate Top Lots
+        </Button>
         </div>
       </div>
     </>
