@@ -45,8 +45,6 @@ const Admin = () => {
     try {
       const response = await fetch(
         "http://localhost:8081/reports/get/occupancyRates"
-        "http://localhost:8081/reports/get/topUsersReport"
-        "http://localhost:8081/reports/get/topParkingLotsReport"
       );
 
       if (response.ok) {

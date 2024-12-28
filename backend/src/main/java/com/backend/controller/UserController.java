@@ -38,6 +38,7 @@ public class UserController {
     @GetMapping("/getUserInformation/{userId}")
     public User getUserInformation(@PathVariable Integer userId) {
         try {
+            System.out.println(userId);
             return userService.findById(userId);
         } catch (Exception e) {
             return new User();

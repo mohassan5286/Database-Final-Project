@@ -97,16 +97,16 @@ public class Controller {
             )
     );
 
-    @GetMapping("/getUserInformation/{userId}")
-    public ResponseEntity<Map<String, String>> getUserInformation(@PathVariable Long userId) {
-        Map<String, String> user = mockUsers.get(userId);
-        if (user != null) {
-            return ResponseEntity.ok(user); // Return 200 OK with user data
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND) // Return 404 Not Found
-                    .body(Map.of("message", "User with ID " + userId + " not found.")); // With message
-        }
-    }
+//    @GetMapping("/getUserInformation/{userId}")
+//    public ResponseEntity<Map<String, String>> getUserInformation(@PathVariable Long userId) {
+//        Map<String, String> user = mockUsers.get(userId);
+//        if (user != null) {
+//            return ResponseEntity.ok(user); // Return 200 OK with user data
+//        } else {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND) // Return 404 Not Found
+//                    .body(Map.of("message", "User with ID " + userId + " not found.")); // With message
+//        }
+//    }
 
 //    @GetMapping("/parkingLots")
 //    public ResponseEntity<List<Map<String, Object>>> getParkingLots() {

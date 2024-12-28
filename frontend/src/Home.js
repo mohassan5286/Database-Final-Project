@@ -16,7 +16,7 @@ import {
 
 function fetchAndSetUserInfo(userId, setUsername, setEmail, setPlateNumber) {
   axios
-    .get(`http://localhost:8081/getUserInformation/${userId}`)
+    .get(`http://localhost:8081/api/auth  /getUserInformation/${userId}`)
     .then((response) => {
       const { name, email, plateNumber } = response.data;
 

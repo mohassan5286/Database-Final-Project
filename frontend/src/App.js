@@ -1,9 +1,15 @@
-import './App.css';
-import Login from './Login';
-import Home from './Home';
-import Admin from './Admin';
-import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import "./App.css";
+import Login from "./Login";
+import Home from "./Home";
+import Admin from "./Admin";
+import { useState, useEffect } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
 
 function App({ userId }) {
   const navigate = useNavigate();
@@ -11,19 +17,20 @@ function App({ userId }) {
 
   useEffect(() => {
     if (!userId) {
-      navigate('/', { replace: true });
+      navigate("/", { replace: true });
     }
   }, [userId, location, navigate]);
 
   return (
     <div>
-      <Home userId={userId}/>
+      <Home userId={userId} />
     </div>
   );
 }
 
 function AppWrapper() {
-  const [userId, setUserId] = useState(localStorage.getItem("userId") || 1);
+  // const [userId, setUserId] = useState(localStorage.getItem("userId") || null);
+  const [userId, setUserId] = useState(localStorage.getItem("userId") || 6);
 
   return (
     <Router>
