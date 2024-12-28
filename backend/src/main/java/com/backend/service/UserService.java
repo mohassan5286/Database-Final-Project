@@ -2,11 +2,13 @@ package com.backend.service;
 
 import com.backend.entity.User;
 import com.backend.repository.UserRepository;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
@@ -37,5 +39,9 @@ public class UserService {
     public User findByEmailAndPassword(String email, String password) {
         System.out.println("user "+ userRepository.findByEmailAndPassword(email, password));
         return   userRepository.findByEmailAndPassword(email, password);
+    }
+
+    public User findById(Integer userId) {
+        return userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException("No Such User"));
     }
 }

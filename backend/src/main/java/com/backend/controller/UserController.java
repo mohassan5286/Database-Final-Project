@@ -3,10 +3,14 @@ package com.backend.controller;
 import com.backend.entity.User;
 import com.backend.repository.UserRepository;
 import com.backend.service.UserService;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @CrossOrigin(value = "http://localhost:3000/")
@@ -29,6 +33,15 @@ public class UserController {
             return ResponseEntity.ok("User registered successfully! Please verify your email.");
         }
         return ResponseEntity.status(400).body(result);  // In case of failure
+    }
+
+    @GetMapping("/getUserInformation/{userId}")
+    public User getUserInformation(@PathVariable Integer userId) {
+        try {
+            return userService.findById(userId);
+        } catch (Exception e) {
+            return new User();
+        }
     }
 
     @GetMapping("/Login/{email}/{password}")

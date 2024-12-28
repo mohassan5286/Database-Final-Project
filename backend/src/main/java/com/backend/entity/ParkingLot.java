@@ -20,8 +20,8 @@ public class ParkingLot {
     @Column(name = "Location", nullable = false, length = 45)
     private String location;
 
-    @Column(name = "Capacity", nullable = false, length = 45)
-    private String capacity;
+    @Column(name = "Capacity", nullable = false)
+    private Integer capacity;
 
     @Column(name = "Admin_AdminID", nullable = false)
     private Integer adminId; // Foreign key as an integer

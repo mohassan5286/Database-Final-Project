@@ -1,12 +1,14 @@
 package com.backend.service;
 
 import com.backend.entity.ParkingLot;
+import com.backend.entity.ParkingSpot;
 import com.backend.entity.Reservation;
 import com.backend.entity.User;
 import com.backend.repository.ParkingLotRepository;
 import com.backend.repository.ParkingSpotRepository;
 import com.backend.repository.ReservationRepository;
 import com.backend.repository.UserRepository;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class ReservationService {
@@ -33,10 +36,23 @@ public class ReservationService {
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    public String createReservation(Reservation reservation) {
-        User user = userRepository.findById(reservation.getUserId()).get();
+    @Transactional
+    public String createReservation(Reservation reservation) throws Exception {
 
-        ParkingLot parkingLot = parkingLotRepository.findById(reservation.getParkingSpotId()).get();
+        if( reservationRepository.findById(reservation.getReservationId()).isPresent() )
+            throw new Exception("Already Reserved Spot");
+        System.out.println(reservation.toString());
+        User user = userRepository.findById(reservation.getUserId()).orElseThrow(() ->
+                new NoSuchElementException("No Such User")
+        );;
+
+        ParkingSpot parkingSpot = parkingSpotRepository.findById(reservation.getParkingSpotId()).orElseThrow(() ->
+            new NoSuchElementException("No Such Spot")
+        );
+
+        ParkingLot parkingLot = parkingLotRepository.findById(parkingSpot.getParkingLotId()).orElseThrow(() ->
+                new NoSuchElementException("No Such Lot")
+        );;
 
         double userDebt = user.getDebt();
 
@@ -48,12 +64,19 @@ public class ReservationService {
 
         }
 
-        double dynamicPrice = calculateDynamicPrice(reservation, parkingSpotRepository.findById(reservation.getParkingSpotId()).get().getPrice());
+        double dynamicPrice = calculateDynamicPrice(reservation, parkingSpot.getPrice());
         user.setDebt((int) dynamicPrice);
 
+        parkingSpot.setStatus("Reserved");
+        System.out.println(1);
         userRepository.save(user);
+        System.out.println(2);
+        parkingSpotRepository.save(parkingSpot);
         parkingLotRepository.save(parkingLot);
+        System.out.println(3);
+        reservation.setReservationId(null);
         reservationRepository.save(reservation);
+        System.out.println(4);
         return "Reservation is successfully done";
     }
 
@@ -80,25 +103,40 @@ public class ReservationService {
         return basePrice + spotFactor + activeUsersCount * 0.2 + basePrice * timeFactor * durationFactor;
     }
 
-    public void userArrived(Reservation reservation) {
-        User user = userRepository.findById(reservation.getUserId()).orElseThrow(() -> new IllegalArgumentException("User not found"));
+    public void userArrived(Integer userId, Integer spotId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        ParkingSpot parkingSpot = parkingSpotRepository.findById(spotId).orElseThrow(() ->
+                new NoSuchElementException("No Such Spot")
+        );
+
+        ParkingLot parkingLot = parkingLotRepository.findById(parkingSpot.getParkingLotId()).orElseThrow(() ->
+                new NoSuchElementException("No Such Lot")
+        );
+
+        Reservation reservation = reservationRepository.findByUserIdAndParkingSpotId(userId, spotId).orElseThrow(
+                () ->   new NoSuchElementException("Slot is not reserved")
+        );
 
         LocalTime endTimeOfDay = LocalTime.parse(reservation.getEndTime(), formatter);
 
-        ParkingLot parkingLot = parkingLotRepository.findById(reservation.getParkingSpotId()).get();
 
-        if ("Yes".equalsIgnoreCase(reservation.getArrived()) && LocalTime.now().isAfter(endTimeOfDay) ) {
+        if ("No".equalsIgnoreCase(reservation.getArrived()) && LocalTime.now().isBefore(endTimeOfDay) ) {
             double userDebt = user.getDebt();
             double currentRevenue = parkingLot.getRevenue();
 
             parkingLot.setRevenue((int) (currentRevenue + userDebt));
             user.setDebt(0);
+            reservation.setArrived("Yes");
+            parkingSpot.setStatus("Occupied");
 
             userRepository.save(user);
+            parkingSpotRepository.save(parkingSpot);
             parkingLotRepository.save(parkingLot);
             reservationRepository.save(reservation);
-        } else {
+        } else if ( "Yes".equalsIgnoreCase(reservation.getArrived()) ) {
             throw new IllegalStateException("User has not arrived yet");
+        } else {
+            throw new IllegalStateException("Are you waiting for something ... An Error ... Good Luck");
         }
     }
 

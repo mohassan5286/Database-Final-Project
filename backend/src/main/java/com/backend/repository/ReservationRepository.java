@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Integer> {
@@ -22,5 +23,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
             "ON r.parkingSpotId = ps.spotId " +
             "GROUP BY r.parkingSpotId")
     List<Map<String, Object>>    getStatisticsForAllLots();
+
+    Optional<Reservation> findByUserIdAndParkingSpotId(Integer userId, Integer parkingSpotId);
+
 }
 
