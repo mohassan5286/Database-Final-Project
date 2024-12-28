@@ -2,8 +2,10 @@ package com.backend.repository;
 
 import com.backend.dto.ReservationStatisticsDTO;
 import com.backend.entity.Reservation;
+import com.backend.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -23,6 +25,15 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
             "ON r.parkingSpotId = ps.spotId " +
             "GROUP BY r.parkingSpotId")
     List<Map<String, Object>>    getStatisticsForAllLots();
+
+    @Query("""
+        SELECT r.userId 
+        FROM Reservation r
+        WHERE r.parkingSpotId = :spotId
+        ORDER BY r.reservationId DESC
+        LIMIT 1
+    """)
+    Integer findLatestUserBySpotIdAndStatus(@Param("spotId") Integer spotId);
 
     Optional<Reservation> findByUserIdAndParkingSpotId(Integer userId, Integer parkingSpotId);
 

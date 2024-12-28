@@ -5,6 +5,7 @@ import com.backend.entity.ParkingSpot;
 import org.hibernate.type.descriptor.converter.spi.JpaAttributeConverter;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -20,4 +21,7 @@ public interface ParkingSpotRepository extends JpaRepository<ParkingSpot, Intege
             "GROUP BY r.parkingSpotId, p.price " +
             "ORDER BY totalRevenue DESC")
     List<Map<String, Object>> getTopParkingLots();
+
+    @Query("SELECT ps FROM ParkingSpot ps WHERE ps.parkingLotId = :lotId")
+    List<ParkingSpot> findByParkingLotId(@Param("lotId") Integer lotId);
 }

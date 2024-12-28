@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.http.HttpHeaders;
 
 @RestController
-@CrossOrigin(value = "http://localhost:3000/")
+@CrossOrigin
 @RequestMapping("/reports")
 public class ReportController {
 

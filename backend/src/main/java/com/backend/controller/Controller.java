@@ -1,5 +1,10 @@
 package com.backend.controller;
 
+import com.backend.entity.Admin;
+import com.backend.entity.User;
+import com.backend.repository.AdminRepository;
+import com.backend.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -103,10 +108,10 @@ public class Controller {
         }
     }
 
-    @GetMapping("/parkingLots")
-    public ResponseEntity<List<Map<String, Object>>> getParkingLots() {
-        return ResponseEntity.ok(parkingLots);
-    }
+//    @GetMapping("/parkingLots")
+//    public ResponseEntity<List<Map<String, Object>>> getParkingLots() {
+//        return ResponseEntity.ok(parkingLots);
+//    }
 
     @PostMapping("/reserveSpot")
     public ResponseEntity<?> reserveSpot(@RequestBody Map<String, Object> reservationDetails) {
@@ -220,13 +225,16 @@ public class Controller {
             )
     );
 
+    @Autowired
+    UserRepository userRepository;
+
     @GetMapping("/getAllUsers")
-    public ResponseEntity<List<Map<String, Object>>> getAllUsers() {
-        return ResponseEntity.ok(users);
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 
-    @PostMapping("/removeUser")
-    public void removeUser(@RequestBody String userId) {
+    @PostMapping("/removeUser/{userId}")
+    public void removeUser(@PathVariable String userId) {
         System.out.println("Received userId: " + userId);
     }
 

@@ -26,7 +26,7 @@ const Login = ({ setUserId }) => {
   };
 
   const validateUser = async (email, password) => {
-    const url = `http://localhost:8080/api/auth/Login/${email}/${password}`;
+    const url = `http://localhost:8081/api/auth/Login/${email}/${password}`;
 
     try {
       setIsLoading(true);
@@ -66,7 +66,7 @@ const Login = ({ setUserId }) => {
   };
   const handleSignup = async (e) => {
     e.preventDefault();
-    const url = `http://localhost:8080/api/auth/signup`;
+    const url = `http://localhost:8081/api/auth/signup`;
 
     try {
       setIsLoading(true);
@@ -75,7 +75,12 @@ const Login = ({ setUserId }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ username, email, password, plateNumber }),
+        body: JSON.stringify({ 
+          name:username, 
+          email:email, 
+          password:password, 
+          licensePlate:plateNumber
+         }),
       });
 
       if (!response.ok) {

@@ -34,12 +34,12 @@ public class ReservationService {
     @Autowired
     private ParkingLotRepository parkingLotRepository;
 
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     @Transactional
     public String createReservation(Reservation reservation) throws Exception {
-
-        if( reservationRepository.findById(reservation.getReservationId()).isPresent() )
+        System.out.println(reservation);
+        if( reservation.getReservationId() != null && reservationRepository.findById(reservation.getReservationId()).isPresent() )
             throw new Exception("Already Reserved Spot");
         System.out.println(reservation.toString());
         User user = userRepository.findById(reservation.getUserId()).orElseThrow(() ->
@@ -117,10 +117,8 @@ public class ReservationService {
                 () ->   new NoSuchElementException("Slot is not reserved")
         );
 
-        LocalTime endTimeOfDay = LocalTime.parse(reservation.getEndTime(), formatter);
 
-
-        if ("No".equalsIgnoreCase(reservation.getArrived()) && LocalTime.now().isBefore(endTimeOfDay) ) {
+        if ("No".equalsIgnoreCase(reservation.getArrived()) ) {
             double userDebt = user.getDebt();
             double currentRevenue = parkingLot.getRevenue();
 

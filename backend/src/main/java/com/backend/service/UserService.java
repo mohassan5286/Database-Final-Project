@@ -20,6 +20,7 @@ public class UserService {
 
     // Method to register a new user
     public String registerUser(User user) {
+        System.out.println(user);
         // Check if user already exists by username
         if (userRepository.findByEmail(user.getEmail()) != null) {
             return "email already taken!";
@@ -27,6 +28,7 @@ public class UserService {
         user.setDebt(0);
         if (user.getAdminId() == null)
             user.setAdminId(1);
+        user.setIdUser(null);
         userRepository.save(user);
         return "User registered successfully!";
     }
