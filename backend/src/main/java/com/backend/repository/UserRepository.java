@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
@@ -18,7 +19,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             "FROM Reservation r " +
             "GROUP BY r.userId " +
             "ORDER BY reservationCount DESC")
-    List<TopUserDTO> getTopUsers();
+    List<Map<String, Object>> getTopUsers();
 
 
     // Custom query to find a user by username

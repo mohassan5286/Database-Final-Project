@@ -28,13 +28,13 @@ public class ReportService {
 
     public String generateAdminReport() throws Exception {
         // Fetch report data as List<Object[]>
-//        List<ReservationStatisticsDTO> data = reservationRepository.getStatisticsForAllLots();
-        List<ReservationStatisticsDTO> data = new ArrayList<>();
+        List<Map<String, Object>> data = reservationRepository.getStatisticsForAllLots();
+//        List<ReservationStatisticsDTO> data = new ArrayList<>();
 
-        data.add(new ReservationStatisticsDTO(1, 1500L, 1500.0, 3L));
-        data.add(new ReservationStatisticsDTO(2, 2000L, 2000.0, 5L));
-        data.add(new ReservationStatisticsDTO(3, 1200L, 1200.0, 2L));
-        System.out.println(data.get(0).getLotID());
+//        data.add(new ReservationStatisticsDTO(1, 1500L, 1500.0, 3L));
+//        data.add(new ReservationStatisticsDTO(2, 2000L, 2000.0, 5L));
+//        data.add(new ReservationStatisticsDTO(3, 1200L, 1200.0, 2L));
+//        System.out.println(data.get(0).getLotID());
         // Prepare parameters for the report
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("Date", new Date());
@@ -72,14 +72,14 @@ public class ReportService {
     }
     public String generateTopUserReport() throws Exception {
         // Fetch report data for top users
-//        List<TopUserDTO> topUsers = userRepository.getTopUsers();
-        List<TopUserDTO> topUsers = new ArrayList<>();
+        List<Map<String, Object>> topUsers = userRepository.getTopUsers();
+//        List<TopUserDTO> topUsers = new ArrayList<>();
 
-        topUsers.add(new TopUserDTO(1, 101, 15L)); // User 1 with admin 101 and 15 reservations
-        topUsers.add(new TopUserDTO(2, 101, 12L)); // User 2 with admin 101 and 12 reservations
-        topUsers.add(new TopUserDTO(3, 102, 10L)); // User 3 with admin 102 and 10 reservations
-        topUsers.add(new TopUserDTO(4, 102, 8L));  // User 4 with admin 102 and 8 reservations
-        topUsers.add(new TopUserDTO(5, 103, 6L));
+//        topUsers.add(new TopUserDTO(1, 101, 15L)); // User 1 with admin 101 and 15 reservations
+//        topUsers.add(new TopUserDTO(2, 101, 12L)); // User 2 with admin 101 and 12 reservations
+//        topUsers.add(new TopUserDTO(3, 102, 10L)); // User 3 with admin 102 and 10 reservations
+//        topUsers.add(new TopUserDTO(4, 102, 8L));  // User 4 with admin 102 and 8 reservations
+//        topUsers.add(new TopUserDTO(5, 103, 6L));
 
         // Prepare parameters for the report
         Map<String, Object> parameters = new HashMap<>();
@@ -118,14 +118,14 @@ public class ReportService {
     }
     public String generateTopParkingSpotReport() throws Exception {
         // Fetch report data for top parking spots
-//        List<TopParkingSpotDTO> topParkingSpots = parkingSpotRepository.getTopParkingLots();
-        List<TopParkingSpotDTO> topParkingSpots = new ArrayList<>();
+        List<Map<String, Object>> topParkingSpots = parkingSpotRepository.getTopParkingLots();
+//        List<TopParkingSpotDTO> topParkingSpots = new ArrayList<>();
 
-        topParkingSpots.add(new TopParkingSpotDTO(1, 150.0));
-        topParkingSpots.add(new TopParkingSpotDTO(2, 120.0));
-        topParkingSpots.add(new TopParkingSpotDTO(3, 100.0));
-        topParkingSpots.add(new TopParkingSpotDTO(4, 90.0));
-        topParkingSpots.add(new TopParkingSpotDTO(5, 75.0));
+//        topParkingSpots.add(new TopParkingSpotDTO(1, 150.0));
+//        topParkingSpots.add(new TopParkingSpotDTO(2, 120.0));
+//        topParkingSpots.add(new TopParkingSpotDTO(3, 100.0));
+//        topParkingSpots.add(new TopParkingSpotDTO(4, 90.0));
+//        topParkingSpots.add(new TopParkingSpotDTO(5, 75.0));
 
 
         // Prepare parameters for the report

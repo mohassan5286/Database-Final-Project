@@ -12,8 +12,8 @@
     </style>
 
     <!-- Define Fields -->
-    <field name="lotID" class="java.lang.Integer"/>
-    <field name="totalRevenue" class="java.lang.Double"/>
+    <field name="lotID" class="java.lang.Object"/>
+    <field name="totalRevenue" class="java.lang.Object"/>
 
     <background splitType="Stretch"/>
 

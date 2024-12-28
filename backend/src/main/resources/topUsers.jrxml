@@ -13,8 +13,6 @@
     </style>
     <field name="userID" class="java.lang.Object">
     </field>
-    <field name="adminID" class="java.lang.Object">
-    </field>
     <field name="reservationCount" class="java.lang.Object">
     </field>
     <background splitType="Stretch"/>
@@ -40,10 +38,6 @@
             <text><![CDATA[User ID]]></text>
             <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5ad72ff5-e37d-4b3f-90c9-1745478c75e6"/>
         </element>
-        <element kind="staticText" uuid="e7585074-5f07-4be0-b3cc-13c9240d6594" x="199" y="0" width="199" height="18" forecolor="#000000" bold="false" style="Column header">
-            <text><![CDATA[Admin ID]]></text>
-            <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1f66d110-f7bb-4ee7-bc88-7f712ea0b24f"/>
-        </element>
         <element kind="staticText" uuid="c44e79fc-d26e-44a9-8b57-8036c28d4c3f" x="398" y="0" width="199" height="18" forecolor="#000000" bold="false" style="Column header">
             <text><![CDATA[Reservation Count]]></text>
             <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="12adf0e7-b9f8-4b0a-9b77-b3c8d6802642"/>
@@ -55,10 +49,6 @@
                 <element kind="textField" uuid="b0366192-4a04-4a31-9be2-bfe620ea18cd" positionType="Float" x="0" y="0" width="199" height="18" fontSize="14.0" textAdjust="StretchHeight" style="Detail">
                     <expression><![CDATA[$F{userID}]]></expression>
                     <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5ad72ff5-e37d-4b3f-90c9-1745478c75e6"/>
-                </element>
-                <element kind="textField" uuid="7f03f4bb-e0c7-4271-814f-d27bcd97b736" positionType="Float" x="199" y="0" width="199" height="18" fontSize="14.0" textAdjust="StretchHeight" style="Detail">
-                    <expression><![CDATA[$F{adminID}]]></expression>
-                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1f66d110-f7bb-4ee7-bc88-7f712ea0b24f"/>
                 </element>
                 <element kind="textField" uuid="37841f84-4c8e-4672-b8e1-82c72a5c4bb2" positionType="Float" x="398" y="0" width="199" height="18" fontSize="14.0" textAdjust="StretchHeight" style="Detail">
                     <expression><![CDATA[$F{reservationCount}]]></expression>
