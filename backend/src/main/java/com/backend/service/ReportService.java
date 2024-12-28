@@ -68,7 +68,7 @@ public class ReportService {
         // Export the report to PDF
         JasperExportManager.exportReportToPdfFile(jasperPrint, reportOutputPath);
 
-        return reportOutputPath; // Return the file path where the report is saved
+        return "adminDashboardReport_" + currentDate + ".pdf"; // Return the file path where the report is saved
     }
     public String generateTopUserReport() throws Exception {
         // Fetch report data for top users
@@ -114,7 +114,7 @@ public class ReportService {
         // Export the report to PDF
         JasperExportManager.exportReportToPdfFile(jasperPrint, reportOutputPath);
 
-        return reportOutputPath; // Return the file path where the report is saved
+        return "topUserReport_" + currentDate + ".pdf"; // Return the file path where the report is saved
     }
     public String generateTopParkingSpotReport() throws Exception {
         // Fetch report data for top parking spots
@@ -161,7 +161,7 @@ public class ReportService {
         // Export the report to PDF
         JasperExportManager.exportReportToPdfFile(jasperPrint, reportOutputPath);
 
-        return reportOutputPath; // Return the file path where the report is saved
+        return "topParkingSpotReport_" + currentDate + ".pdf"; // Return the file path where the report is saved
     }
 
 

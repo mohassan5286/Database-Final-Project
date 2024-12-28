@@ -33,6 +33,8 @@ public class ReservationService {
     private ParkingSpotRepository parkingSpotRepository;
     @Autowired
     private ParkingLotRepository parkingLotRepository;
+    @Autowired
+    private EmailSenderService emailSenderService;
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
@@ -75,8 +77,14 @@ public class ReservationService {
         parkingLotRepository.save(parkingLot);
         System.out.println(3);
         reservation.setReservationId(null);
-        reservationRepository.save(reservation);
-        System.out.println(4);
+//            reservationRepository.save(reservation);
+        reservationRepository.reserveParkingSpot(
+                parkingSpot.getSpotId(),
+                user.getIdUser(),
+                reservation.getStartTime(),
+                reservation.getEndTime()
+        );
+        emailSenderService.sendSimpleEmail(user.getEmail(), "Reservation is successfully done", "Reservation Process");
         return "Reservation is successfully done";
     }
 
@@ -127,10 +135,20 @@ public class ReservationService {
             reservation.setArrived("Yes");
             parkingSpot.setStatus("Occupied");
 
+
+
             userRepository.save(user);
             parkingSpotRepository.save(parkingSpot);
             parkingLotRepository.save(parkingLot);
             reservationRepository.save(reservation);
+//            reservationRepository.reserveParkingSpot(
+//                    parkingSpot.getSpotId(),
+//                    user.getIdUser(),
+//                    reservation.getStartTime(),
+//                    reservation.getEndTime()
+//
+//            );
+            emailSenderService.sendSimpleEmail(user.getEmail(), "Arriving is successfully done", "Arriving Process");
         } else if ( "Yes".equalsIgnoreCase(reservation.getArrived()) ) {
             throw new IllegalStateException("User has not arrived yet");
         } else {

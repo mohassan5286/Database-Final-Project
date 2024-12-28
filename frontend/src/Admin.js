@@ -12,6 +12,8 @@ import "./Admin.css";
 
 const Admin = () => {
   const [users, setUsers] = useState([]);
+  const defaultFolderPath = "http://localhost:8080/";
+  const defaultFileName = "Lecture 4.1 - Network Layer.pdf";
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -28,7 +30,7 @@ const Admin = () => {
 
   const handleRemoveUser = async (userId) => {
     setUsers(users.filter((user) => user.user_id !== userId));
-    try {
+    try { 
       const response = await axios.post(
         `http://localhost:8081/removeUser/${userId}`
       );
@@ -41,20 +43,48 @@ const Admin = () => {
     }
   };
 
-  const handleGenerateReport = async () => {
-    try {
-      const response = await fetch(
-        "http://localhost:8081/reports/get/occupancyRates"
-      );
+  const openFile = (fileName) => {
+    const filePath = `${defaultFolderPath}${fileName}`;
+    window.open(filePath, "_blank");
+  };
 
-      if (response.ok) {
-        console.log("Report generation initiated");
-      } else {
-        console.error("Error generating report");
-      }
-    } catch (error) {
-      console.error("Error generating report:", error);
-    }
+  const fetchOccupancyRates = () => {
+    axios
+      .get("http://localhost:8081/reports/get/occupancyRates")
+      .then((response) => {
+        const fileName = response.data || defaultFileName;
+        openFile(fileName);
+      })
+      .catch((error) => {
+        console.error("Error fetching occupancy rates:", error);
+        openFile(defaultFileName);
+      });
+  };
+
+  const fetchTopUsersReport = () => {
+    axios
+      .get("http://localhost:8081/reports/get/topUsersReport")
+      .then((response) => {
+        const fileName = response.data || defaultFileName;
+        openFile(fileName);
+      })
+      .catch((error) => {
+        console.error("Error fetching top users report:", error);
+        openFile(defaultFileName);
+      });
+  };
+
+  const fetchTopParkingLotsReport = () => {
+    axios
+      .get("http://localhost:8081/reports/get/topParkingLotsReport")
+      .then((response) => {
+        const fileName = response.data || defaultFileName;
+        openFile(fileName);
+      })
+      .catch((error) => {
+        console.error("Error fetching top parking lots report:", error);
+        openFile(defaultFileName);
+      });
   };
 
   return (
@@ -92,7 +122,7 @@ const Admin = () => {
             variant="contained"
             color="primary"
             style={{ margin: "20px" }}
-            onClick={handleGenerateReport}
+            onClick={fetchOccupancyRates}
           >
             Generate Dashboard
           </Button>
@@ -100,7 +130,7 @@ const Admin = () => {
             variant="contained"
             color="primary"
             style={{ margin: "20px" }}
-            onClick={handleGenerateReport}
+            onClick={fetchTopUsersReport}
           >
             Generate Top Users
           </Button>
@@ -108,7 +138,7 @@ const Admin = () => {
             variant="contained"
             color="primary"
             style={{ margin: "20px" }}
-            onClick={handleGenerateReport}
+            onClick={fetchTopParkingLotsReport}
           >
             Generate Top Lots
           </Button>
