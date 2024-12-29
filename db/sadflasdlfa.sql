@@ -281,24 +281,7 @@ DELIMITER ;
 
 
 
-DELIMITER $$
 
-CREATE PROCEDURE ReserveSpot(
-    IN p_SpotID INT,
-    IN p_UserID INT,
-    IN p_AdminID INT,
-    IN p_StartTime DATETIME,
-    IN p_EndTime DATETIME
-)
-BEGIN
-    INSERT INTO smartparkingcity.Reservation (
-        ParkingSpot_SpotID, User_idUser, User_Admin_AdminID, StartTime, EndTime
-    ) VALUES (
-        p_SpotID, p_UserID, p_AdminID, p_StartTime, p_EndTime
-    );
-END$$
-
-DELIMITER ;
 
 -- Create an index for SpotID in the ParkingSpot table
 -- CREATE INDEX idx_parking_spot_id ON smartparkingcity.ParkingSpot (SpotID);
@@ -355,55 +338,7 @@ END;
 
 DELIMITER ;
 
-DELIMITER $$
 
-CREATE PROCEDURE ReserveParkingSpot(
-    IN p_SpotID INT,
-    IN p_LotID INT,
-    IN p_AdminID INT,
-    IN p_UserID INT,
-    IN p_StartTime DATETIME,
-    IN p_EndTime DATETIME
-)
-BEGIN
-    DECLARE spotStatus VARCHAR(45);
-
-    -- Start transaction for concurrency control
-    START TRANSACTION;
-
-    -- Lock the specific parking spot row to prevent other users from reserving it simultaneously
-    SELECT Status INTO spotStatus
-    FROM smartparkingcity.ParkingSpot
-    WHERE SpotID = p_SpotID 
-      AND ParkingLot_LotID = p_LotID 
-      AND ParkingLot_Admin_AdminID = p_AdminID
-    FOR UPDATE;
-
-    -- Check if the spot is currently available
-    IF spotStatus = 'Available' THEN
-        -- Insert the reservation into the Reservation table
-        INSERT INTO smartparkingcity.Reservation (
-            Arrived, StartTime, EndTime, 
-            User_idUser, User_Admin_AdminID, 
-            ParkingSpot_SpotID, ParkingSpot_ParkingLot_LotID, ParkingSpot_ParkingLot_Admin_AdminID
-        )
-        VALUES (
-            'No', p_StartTime, p_EndTime, 
-            p_UserID, p_AdminID, 
-            p_SpotID, p_LotID, p_AdminID
-        );
-
-        -- Commit the transaction if the reservation is successful
-        COMMIT;
-    ELSE
-        -- Rollback the transaction if the spot is not available
-        ROLLBACK;
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Parking spot is not available.';
-    END IF;
-END$$
-
-DELIMITER ;
 
 
 
