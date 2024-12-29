@@ -6,8 +6,8 @@ from mysql.connector import Error
 # Configuration
 DB_CONFIG = {
     "host": "localhost",
-    "user": "root",
-    "password": "yourpassword",
+    "user": "admin",
+    "password": "admin",
     "database": "parking_system",
 }
 STATUS = ["available", "occupied"]
