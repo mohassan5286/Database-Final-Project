@@ -6,7 +6,8 @@
   <br>
 </h1>
 
-<h4 align="center">A travel website offering destination browsing, filters, reviews, bookings, discussion forums, favorites, and admin management with chatbot support.</h4>
+<h4 align="center">A smart city parking system offering real-time parking availability, dynamic pricing, user reservations, IoT-based monitoring, role-based access, and advanced reporting for efficient urban parking management.</h4>
+
 
 <!-- <p align="center">
   <a href="https://badge.fury.io/js/electron-markdownify">
@@ -27,7 +28,6 @@
   <a href="#how-to-use">How To Use</a> •
   <a href="#dependencies">Dependencies</a> •
   <a href="#app-design">App Design</a> •
-  <a href="#future-features">Future Features</a> •
   <a href="#documentation">Documentation</a> •
   <a href="#contact">Contact</a> •
   <a href="#license">License</a> •
@@ -55,7 +55,9 @@
 
 ---
 
-## How To Run the Project
+## How To Use
+
+This project has pre-built React and Spring Boot applications that can be run independently. The React frontend communicates with the Spring Boot backend via REST APIs.
 
 
 
@@ -90,21 +92,6 @@
   ![Iot Simulation](docs/img/iotSimulation.png)
 - User Information
   ![User Information](docs/img/userInformation.jpg)
----
-
-## Future Features
-
-1. **Personalized Recommendations**: Suggest destinations based on user preferences and browsing history.
-2. **Interactive Maps**: Display destinations with a map interface for easy navigation.
-3. **Multi-Language Support**: Provide content in multiple languages for global accessibility.
-4. **Dynamic Event Updates**: Real-time updates for events and festivals at destinations.
-5. **Social Sharing**: Allow users to share destinations and experiences on social media.
-6. **Augmented Reality Previews**: Visualize destinations through AR to enhance user engagement.
-7. **Group Bookings**: Enable booking for groups with shared itineraries and discounts.
-8. **Push Notifications**: Notify users about deals, updates, and personalized recommendations.
-9. **Travel Insurance Integration**: Offer optional travel insurance during the booking process.
-10. **Offline Access**: Save destination details and itineraries for offline use.
-
 ---
 
 ## Documentation
