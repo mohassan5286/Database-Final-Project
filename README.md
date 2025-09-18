@@ -6,7 +6,7 @@
   <br>
 </h1>
 
-<h4 align="center">A smart city parking system offering real-time parking availability, dynamic pricing, user reservations, IoT-based monitoring, role-based access, and advanced reporting for efficient urban parking management.</h4>
+<h4 align="center">Smart City Parking Management System, dynamic pricing, user reservations, IoT-based monitoring, role-based access, and advanced reporting for efficient urban parking management.</h4>
 
 
 <!-- <p align="center">
@@ -88,7 +88,7 @@ This project has pre-built React and Spring Boot applications that can be run in
   ![Reports](docs/img/adminReport.png)
   ![Reports](docs/img/parkingSpotReport.png)
 - Iot Simulation
-- 
+  
   ![Iot Simulation](docs/img/iotSimulation.png)
 - User Information
   ![User Information](docs/img/userInformation.jpg)

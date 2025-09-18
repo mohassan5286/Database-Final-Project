@@ -1,0 +1,40 @@
+body {
+    background-color: #ffffff; /* White background for the page */
+  }
+  
+  .admin-container {
+    padding: 20px;
+  }
+  
+  .user-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+  
+  .user-card {
+    width: 30%; /* Adjust the width to fit three cards per row */
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .user-card .MuiCardContent-root {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .user-card .MuiTypography-h6 {
+    margin-bottom: 10px;
+  }
+  
+  .user-card .MuiButton-containedSecondary {
+    margin-top: 10px;
+  }
+  
+  .report-section {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }

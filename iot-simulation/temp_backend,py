@@ -1,0 +1,12 @@
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+@app.route('/update_status', methods=['POST'])
+def update_status():
+    data = request.get_json()
+    print(f"Received update: {data}")
+    return jsonify({"message": "Update received"}), 200
+
+if __name__ == "__main__":
+    app.run(debug=True)
